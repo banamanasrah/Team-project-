@@ -1,0 +1,162 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "title": "Luxury Dress",
+      "image": "product image 1.jpg",
+      "category": "Clothing & accessories",
+      "price": 3500,
+      "popularity": 5,
+      "stock": 10
+    },
+    {
+      "id": "2",
+      "title": "Luxury Black Clothing",
+      "image": "product image 2.jpg",
+      "category": "Clothing & accessories",
+      "price": 1050,
+      "popularity": 4,
+      "stock": 20
+    },
+    {
+      "id": "101",
+      "title": "Smart Watch",
+      "image": "product image 3.jpg",
+      "category": "Electronics",
+      "price": 300,
+      "popularity": 5,
+      "stock": 10
+    },
+    {
+      "id": "102",
+      "title": "Wireless Headphones",
+      "image": "product image 4.jpg",
+      "category": "Electronics",
+      "price": 150,
+      "popularity": 4,
+      "stock": 20
+    },
+    {
+      "id": "103",
+      "title": "Bluetooth Speaker",
+      "image": "product image 5.jpg",
+      "category": "Electronics",
+      "price": 200,
+      "popularity": 3,
+      "stock": 15
+    },
+    {
+      "id": "104",
+      "title": "Leather Handbag",
+      "image": "product image 6.jpg",
+      "category": "Clothing & accessories",
+      "price": 120,
+      "popularity": 5,
+      "stock": 25
+    },
+    {
+      "id": "105",
+      "title": "Classic Sunglasses",
+      "image": "product image 7.jpg",
+      "category": "Clothing & accessories",
+      "price": 80,
+      "popularity": 4,
+      "stock": 30
+    },
+    {
+      "id": "106",
+      "title": "Elegant Scarf",
+      "image": "product image 8.jpg",
+      "category": "Clothing & accessories",
+      "price": 60,
+      "popularity": 3,
+      "stock": 40
+    },
+    {
+      "id": "107",
+      "title": "Fresh Apples",
+      "image": "product image 9.jpg",
+      "category": "Groceries & food",
+      "price": 5,
+      "popularity": 5,
+      "stock": 100
+    },
+    {
+      "id": "108",
+      "title": "Organic Milk",
+      "image": "product image 10.jpg",
+      "category": "Groceries & food",
+      "price": 3,
+      "popularity": 4,
+      "stock": 80
+    },
+    {
+      "id": "109",
+      "title": "Bread Pack",
+      "image": "product image 11.jpg",
+      "category": "Groceries & food",
+      "price": 2,
+      "popularity": 3,
+      "stock": 60
+    },
+    {
+      "id": "110",
+      "title": "Modern Lamp",
+      "image": "product image 12.jpg",
+      "category": "Home & living",
+      "price": 90,
+      "popularity": 5,
+      "stock": 20
+    },
+    {
+      "id": "111",
+      "title": "Decorative Vase",
+      "image": "product image 13.jpg",
+      "category": "Home & living",
+      "price": 70,
+      "popularity": 4,
+      "stock": 15
+    },
+    {
+      "id": "112",
+      "title": "Wall Art Frame",
+      "image": "product image 14.jpg",
+      "category": "Home & living",
+      "price": 110,
+      "popularity": 3,
+      "stock": 10
+    },
+    {
+  "id": "201",
+  "title": "Bluetooth Headphones",
+  "image": "Headphones.png",
+  "category": "Electronics",
+  "price": 20,
+  "popularity": 5,
+  "stock": 15,
+  "description": "High-quality Bluetooth headphones with 24-hour battery life. Designed for deep bass and clear sound, perfect for music lovers and daily use."
+},
+{
+  "id": "202",
+  "title": "Minimal Phone Case",
+  "image": "phonecase.png",
+  "category": "Electronics",
+  "price": 30,
+  "popularity": 4,
+  "stock": 30,
+  "description": "Slim and durable phone case designed to protect your device from scratches and drops while keeping a modern minimal look."
+},
+{
+  "id": "203",
+  "title": "Stylish Cotton Top",
+  "image": "top.png",
+  "category": "Clothing & accessories",
+  "price": 30,
+  "popularity": 4,
+  "stock": 25,
+  "description": "Comfortable breathable cotton top with a relaxed fit, perfect for casual everyday wear with a modern aesthetic."
+}
+  ],
+  "orders": [],
+  "users": []
+}
