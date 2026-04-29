@@ -64,7 +64,7 @@ const SidebarMenu = ({
             <Link to="/" className={menuItemClass}>
               Home
             </Link>
-            <Link to="/shop" className={menuItemClass}>
+            <Link to="/services" className={menuItemClass}>
              Services
             </Link>
             <Link to="/search" className={menuItemClass}>

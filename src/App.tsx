@@ -14,6 +14,8 @@ import {
   SingleProduct,
   UserProfile,
 } from "./pages";
+import HomeServicesHero from "./pages/service";
+import ListServicePage from "./pages/listservice";
 
 import { checkoutAction, searchAction } from "./actions/index";
 import shopCategoryLoader from "./pages/Shop";
@@ -44,6 +46,14 @@ const router = createBrowserRouter([
       {
         path: "product/:id",
         element: <SingleProduct />,
+      },
+      {
+        path: "services",
+        element: <HomeServicesHero />,
+      },
+      {
+        path: "listservice",
+        element: <ListServicePage />,
       },
       {
         path: "cart",
