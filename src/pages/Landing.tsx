@@ -13,11 +13,11 @@ const sliderImages = [accessories, pants, skinCare, electronics];
 const backgroundPositions = ["center", "center", "bottom", "center"];
 
 const categoryMap = [
-  { label: "Home & Living", slug: "home-living" },
-  { label: "Electronics", slug: "electronics" },
-  { label: "Groceries & Food", slug: "groceries-food" },
-  { label: "Clothing & Accessories", slug: "clothing-accessories" },
-  { label: "Services", slug: "services" },
+  { label: "Home & Living", slug: "home-living", path: "/shop/home-living" },
+  { label: "Electronics", slug: "electronics", path: "/shop/electronics" },
+  { label: "Groceries & Food", slug: "groceries-food", path: "/shop/groceries-food" },
+  { label: "Clothing & Accessories", slug: "clothing-accessories", path: "/shop/clothing-accessories" },
+  { label: "Services", slug: "services", path: "/services" },
 ];
 
 const Landing = () => {
@@ -89,7 +89,7 @@ const Landing = () => {
           <button
             key={cat.slug}
             className="py-3 px-7 rounded-full bg-secondaryBrown/10 text-[#111111] font-medium transition duration-200 hover:bg-secondaryBrown/20"
-            onClick={() => navigate(`/shop/${cat.slug}`)}
+            onClick={() => navigate(cat.path)}
           >
             {cat.label}
           </button>
@@ -107,7 +107,7 @@ const Landing = () => {
       {/* PRODUCTS SECTION */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <button
-          onClick={() => navigate("/product/1")}
+          onClick={() => navigate("/product/1", { state: { product: { id: "1", title: "Stylish Top", price: 20, category: "clothing-accessories", image: top, popularity: 0, stock: 10 } } })}
           className="bg-[var(--bg-soft)] p-4 rounded-xl border border-[var(--border)] text-center cursor-pointer hover:shadow-lg transition-shadow"
         >
           <img src={top} className="h-40 mx-auto object-contain" alt="Stylish Top" />
@@ -116,7 +116,7 @@ const Landing = () => {
         </button>
 
         <button
-          onClick={() => navigate("/product/2")}
+          onClick={() => navigate("/product/2", { state: { product: { id: "2", title: "Phone Case", price: 20, category: "clothing-accessories", image: phonecase, popularity: 0, stock: 10 } } })}
           className="bg-[var(--bg-soft)] p-4 rounded-xl border border-[var(--border)] text-center cursor-pointer hover:shadow-lg transition-shadow"
         >
           <img src={phonecase} className="h-40 mx-auto object-contain" alt="Phone Case" />
@@ -125,7 +125,7 @@ const Landing = () => {
         </button>
 
         <button
-          onClick={() => navigate("/product/3")}
+          onClick={() => navigate("/product/101", { state: { product: { id: "101", title: "Headphones", price: 20, category: "electronics", image: headphones, popularity: 0, stock: 10 } } })}
           className="bg-[var(--bg-soft)] p-4 rounded-xl border border-[var(--border)] text-center cursor-pointer hover:shadow-lg transition-shadow"
         >
           <img src={headphones} className="h-40 mx-auto object-contain" alt="Headphones" />

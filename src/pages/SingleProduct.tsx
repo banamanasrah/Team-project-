@@ -96,7 +96,11 @@ const SingleProduct = () => {
         {/* LEFT IMAGE */}
         <div>
           <img
-            src={`/assets/${encodeURIComponent(singleProduct?.image || "")}`}
+            src={
+              singleProduct?.image?.startsWith("/") || singleProduct?.image?.startsWith("http")
+                ? singleProduct.image
+                : `/assets/${encodeURIComponent(singleProduct?.image || "")}`
+            }
             alt={singleProduct?.title || "Product image"}
             className="w-full object-contain rounded-xl"
           />

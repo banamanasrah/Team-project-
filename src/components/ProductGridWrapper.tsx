@@ -13,7 +13,7 @@ interface Product {
 }
 
 const normalize = (str: string) =>
-  str.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "");
+  str.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
 
 const ProductGridWrapper = ({
   searchQuery = "",
