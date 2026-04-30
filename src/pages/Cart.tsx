@@ -34,8 +34,8 @@ const Cart = () => {
             <Link
               to="/"
               className="rounded-full shadow-sm transition-all px-10 py-3 text-lg font-bold"
-              style={{ 
-                backgroundColor: '#e5e7eb', 
+              style={{
+                backgroundColor: '#e5e7eb',
                 color: '#000000',
                 textDecoration: 'none'
               }}
@@ -139,9 +139,9 @@ const Cart = () => {
                 <Link
                   to="/checkout"
                   className="w-full flex items-center justify-center gap-2 rounded-full shadow-md transition-all"
-                  style={{ 
-                    backgroundColor: '#e5e7eb', 
-                    color: '#000000',           
+                  style={{
+                    backgroundColor: '#e5e7eb',
+                    color: '#000000',
                     padding: '20px 24px',
                     fontSize: '20px',
                     fontWeight: 'bold',
@@ -150,17 +150,17 @@ const Cart = () => {
                   }}
                 >
                   Proceed to Checkout
-                  <ChevronRightIcon 
-                    className="h-6 w-6" 
-                    style={{ color: '#000000' }} 
+                  <ChevronRightIcon
+                    className="h-6 w-6"
+                    style={{ color: '#000000' }}
                   />
                 </Link>
               </div>
-              
+
               <div className="mt-8 flex items-start gap-2 text-xs text-gray-500 leading-relaxed">
                 <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400" />
                 <p>
-                  Nordic Assurance: Secure checkout and encrypted payments. 
+                  Nordic Assurance: Secure checkout and encrypted payments.
                   30-day hassle-free returns on all regular items.
                 </p>
               </div>
