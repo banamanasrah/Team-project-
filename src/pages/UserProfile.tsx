@@ -41,20 +41,16 @@ const UserProfile = () => {
       }
       toast.success("User updated successfully");
     } else {
-      toast.error("Please login to view this page");
-      navigate("/login");
+      toast.error("Please login to update your profile");
     }
   };
 
   useEffect(() => {
     const userId = JSON.parse(localStorage.getItem("user") || "{}").id;
-    if (!userId) {
-      toast.error("Please login to view this page");
-      navigate("/login");
-    } else {
+    if (userId) {
       fetchUser(userId);
     }
-  }, [navigate]);
+  }, []);
   return (
     <div className="max-w-screen-lg mx-auto mt-24 px-5">
       <h1 className="text-3xl font-bold mb-8">User Profile</h1>
