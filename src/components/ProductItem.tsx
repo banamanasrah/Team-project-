@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
-import { formatCategoryName } from "../utils/formatCategoryName";
+import { useNavigate } from "react-router-dom";
 
 interface ProductItemProps {
-  id: string;
+  id: string | number;
   image: string;
   title: string;
   category: string;
@@ -15,64 +14,31 @@ const ProductItem = ({
   id,
   image,
   title,
-  category,
   price,
-  popularity,
-  stock,
 }: ProductItemProps) => {
-  const product = { id, image, title, category, price, popularity, stock };
+  const navigate = useNavigate();
 
   return (
-    <div className="w-[400px] flex flex-col gap-2 justify-center max-md:w-[300px]">
-      {/* IMAGE */}
-      <Link
-        to={`/product/${id}`}
-        state={{ product }}
-        className="w-full h-[300px] overflow-hidden"
-      >
+    <button
+      onClick={() => navigate(`/product/${id}`)}
+      className="bg-[var(--bg-soft)] p-4 rounded-xl border border-[var(--border)] text-center cursor-pointer hover:shadow-lg transition-shadow w-full"
+    >
+      {/* عرض الصورة بنفس الارتفاع القديم h-40 */}
+      <div className="h-40 w-full flex items-center justify-center overflow-hidden">
         <img
-          src={`/assets/${encodeURIComponent(image)}`}
+          src={image || "https://placehold.co/400x600?text=No+Image"}
+          className="h-full mx-auto object-contain"
           alt={title}
-          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = "https://placehold.co/400x600?text=Image+Not+Found";
+          }}
         />
-      </Link>
-
-      {/* TITLE */}
-      <Link
-        to={`/product/${id}`}
-        state={{ product }}
-        className="text-black text-center text-3xl"
-      >
-        <h2>{title}</h2>
-      </Link>
-
-      {/* CATEGORY */}
-      <p className="text-secondaryBrown text-center text-lg">
-        {formatCategoryName(category)}
-      </p>
-
-      {/* PRICE */}
-      <p className="text-black text-2xl text-center font-bold">${price}</p>
-
-      {/* BUTTONS */}
-      <div className="w-full flex flex-col gap-2">
-        <Link
-          to={`/product/${id}`}
-          state={{ product }}
-          className="bg-secondaryBrown text-white text-center h-12 flex items-center justify-center"
-        >
-          View product
-        </Link>
-
-        <Link
-          to={`/product/${id}`}
-          state={{ product }}
-          className="border border-black text-black text-center h-12 flex items-center justify-center"
-        >
-          Learn more
-        </Link>
       </div>
-    </div>
+
+      {/* العنوان والسعر بنفس التنسيق القديم حرفياً */}
+      <h3 className="mt-3 font-semibold text-[#1A1C2D]">{title}</h3>
+      <p className="text-gray-400 font-medium">{Number(price).toFixed(2)} JOD</p>
+    </button>
   );
 };
 

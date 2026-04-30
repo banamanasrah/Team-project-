@@ -1,5 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// ✅ أضفنا هذا التعريف لحل مشكلة التايب سكريبت
+export interface ProductInCart {
+  id: string | number;
+  title?: string;
+  price: number;
+  quantity: number;
+  image?: string;
+  stock?: number;
+}
+
 type CartState = {
   productsInCart: ProductInCart[];
   subtotal: number;
@@ -12,7 +22,6 @@ const initialState: CartState = {
 
 export const cartSlice = createSlice({
   name: "cart",
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     addProductToTheCart: (state, action: PayloadAction<ProductInCart>) => {
@@ -36,7 +45,7 @@ export const cartSlice = createSlice({
     },
     removeProductFromTheCart: (
       state,
-      action: PayloadAction<{ id: string }>
+      action: PayloadAction<{ id: string | number }>
     ) => {
       state.productsInCart = state.productsInCart.filter(
         (product) => product.id !== action.payload.id
@@ -45,7 +54,7 @@ export const cartSlice = createSlice({
     },
     updateProductQuantity: (
       state,
-      action: PayloadAction<{ id: string; quantity: number }>
+      action: PayloadAction<{ id: string | number; quantity: number }>
     ) => {
       state.productsInCart = state.productsInCart.map((product) => {
         if (product.id === action.payload.id) {
@@ -60,9 +69,14 @@ export const cartSlice = createSlice({
     },
     calculateTotalPrice: (state) => {
       state.subtotal = state.productsInCart.reduce(
-        (acc, product) => acc + product.price * product.quantity,
+        (acc, product) => acc + (product.price * product.quantity),
         0
       );
+    },
+    /** Clear the entire cart after a successful checkout. */
+    clearCart: (state) => {
+      state.productsInCart = [];
+      state.subtotal = 0;
     },
   },
 });
@@ -72,6 +86,7 @@ export const {
   removeProductFromTheCart,
   updateProductQuantity,
   calculateTotalPrice,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

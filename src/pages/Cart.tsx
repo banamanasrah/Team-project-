@@ -10,10 +10,27 @@ import {
   updateProductQuantity,
 } from "../features/cart/cartSlice";
 import toast from "react-hot-toast";
+import { isLoggedIn, removeFromBackendCart } from "../api/cartApi";
+
+
 
 const Cart = () => {
   const { productsInCart, subtotal } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+
+  // 👇 دالة الحذف التي تربط الفرونت-إند بالباك-إند
+  const handleRemoveItem = async (productId: string | number) => {
+    try {
+      if (isLoggedIn()) {
+        await removeFromBackendCart(Number(productId));
+      }
+      dispatch(removeProductFromTheCart({ id: productId }));
+      toast.error("Product removed from the cart");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to remove from database. Please try again.");
+    }
+  };
 
   return (
     <div className="bg-white mx-auto max-w-screen-2xl px-5 max-[400px]:px-3">
@@ -35,8 +52,11 @@ const Cart = () => {
                 <li key={product.id} className="flex py-6 sm:py-10">
                   <div className="flex-shrink-0">
                     <img
-                      src={`/assets/${product.image}`}
-                      alt={product.title}
+                      src={product?.image || ""}
+                      alt={product?.title}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = "none";
+                      }}
                       className="h-24 w-24 object-cover object-center sm:h-48 sm:w-48"
                     />
                   </div>
@@ -54,6 +74,7 @@ const Cart = () => {
                             </Link>
                           </h3>
                         </div>
+                        {/* 👇 تم إعادة Color و Size كما طلبت */}
                         <div className="mt-1 flex text-sm">
                           <p className="text-gray-500">{product.color}</p>
                           {product.size ? (
@@ -68,17 +89,19 @@ const Cart = () => {
                       </div>
 
                       <div className="mt-4 sm:mt-0 sm:pr-9">
-                        <label htmlFor="quantity mr-5">Quantity: </label>
+                        <label htmlFor={`quantity-${product.id}`} className="mr-5">
+                          Quantity:{" "}
+                        </label>
                         <input
                           type="number"
-                          id="quantity"
+                          id={`quantity-${product.id}`}
                           className="w-16 h-7 indent-1 bg-white border"
                           value={product?.quantity}
                           onChange={(e) => {
                             dispatch(
                               updateProductQuantity({
                                 id: product?.id,
-                                quantity: parseInt(e.target.value),
+                                quantity: parseInt(e.target.value) || 1,
                               })
                             );
                           }}
@@ -88,11 +111,7 @@ const Cart = () => {
                           <button
                             type="button"
                             className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
-                            onClick={() =>{
-                              dispatch(
-                                removeProductFromTheCart({ id: product?.id })
-                              ); toast.error("Product removed from the cart");}
-                            }
+                            onClick={() => handleRemoveItem(product.id)}
                           >
                             <span className="sr-only">Remove</span>
                             <XMarkIcon className="h-5 w-5" aria-hidden="true" />

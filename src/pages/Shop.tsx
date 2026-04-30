@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "react-router-dom";
+import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { ShopBanner } from "../components";
 import ProductGrid from "../components/ProductGrid";
 import ProductGridWrapper from "../components/ProductGridWrapper";
@@ -18,11 +18,15 @@ interface LoaderData {
   products: Product[];
 }
 
-const categoryLabelMap: Record<string, string> = {
+export const categoryLabelMap: Record<string, string> = {
   "home-living": "Home & Living",
-  electronics: "Electronics",
+  "electronics": "Electronics",
   "groceries-food": "Groceries & Food",
   "clothing-accessories": "Clothing & Accessories",
+  "sports-outdoors": "Sports & Outdoors",
+  "books-media": "Books & Media",
+  "health-beauty": "Health & Beauty",
+  "services": "Services",
 };
 
 export const shopCategoryLoader = async ({ params }: LoaderFunctionArgs): Promise<LoaderData> => {
@@ -30,7 +34,7 @@ export const shopCategoryLoader = async ({ params }: LoaderFunctionArgs): Promis
 
   const displayCategory = categoryParam
     ? categoryLabelMap[categoryParam] ?? categoryParam.replace(/-/g, " ")
-    : "Services";
+    : "All";
 
   return {
     category: displayCategory,
@@ -39,8 +43,7 @@ export const shopCategoryLoader = async ({ params }: LoaderFunctionArgs): Promis
 };
 
 const Shop = () => {
-  const category = new URLSearchParams(window.location.search).get("category") || 
-    window.location.pathname.split("/shop/")[1] || "Services";
+  const { category } = useLoaderData() as LoaderData;
 
   return (
     <div className="max-w-screen-2xl mx-auto pt-10">

@@ -6,6 +6,7 @@ import { useAppDispatch } from "../hooks";
 import { formatCategoryName } from "../utils/formatCategoryName";
 import { Product } from "../typings";
 import toast from "react-hot-toast";
+import { addToBackendCart, isLoggedIn } from "../api/cartApi";
 
 const SingleProduct = () => {
   const location = useLocation();
@@ -82,8 +83,47 @@ const SingleProduct = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
-  const handleAddToCart = () => {
-    if (singleProduct) {
+  const handleAddToCart = async () => {
+    if (!singleProduct) {
+      toast.error("Product not loaded yet");
+      return;
+    }
+
+    const productId = parseInt(singleProduct.id, 10);
+
+    if (isLoggedIn() && !isNaN(productId)) {
+      // ── Authenticated path: persist in backend cart ──
+      try {
+        const updatedCart = await addToBackendCart(productId, quantity);
+        // Find the just-added item to keep Redux in sync
+        const backendItem = updatedCart.items.find(
+          (i) => i.product_id === productId
+        );
+        if (backendItem) {
+          dispatch(
+            addProductToTheCart({
+              id: String(productId) + color,
+              image: backendItem.product.image_url ?? "",
+              title: backendItem.product.title,
+              category:
+                typeof backendItem.product.category === "object"
+                  ? backendItem.product.category.name
+                  : String(backendItem.product.category ?? ""),
+              price: backendItem.product.price,
+              quantity: backendItem.quantity,
+              color,
+              popularity: 0,
+              stock: backendItem.product.stock_quantity,
+            })
+          );
+        }
+        toast.success("Product added to the cart");
+      } catch (err: any) {
+        const detail = err?.response?.data?.detail ?? "Failed to add product to cart";
+        toast.error(detail);
+      }
+    } else {
+      // ── Guest path: local Redux only ──
       try {
         dispatch(
           addProductToTheCart({
@@ -96,15 +136,12 @@ const SingleProduct = () => {
             color,
             popularity: singleProduct.popularity,
             stock: singleProduct.stock,
-          }),
+          })
         );
         toast.success("Product added to the cart");
       } catch (error) {
         toast.error("Failed to add product to cart");
-        console.error("Error adding to cart:", error);
       }
-    } else {
-      toast.error("Product not loaded yet");
     }
   };
 
@@ -119,8 +156,9 @@ const SingleProduct = () => {
         {/* LEFT IMAGE */}
         <div>
           <img
-            src={`/assets/${encodeURIComponent(singleProduct?.image || "")}`}
+            src={singleProduct?.image || ""}
             alt={singleProduct?.title || "Product image"}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
             className="w-full object-contain rounded-xl"
           />
         </div>

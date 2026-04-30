@@ -20,6 +20,7 @@ const SidebarMenu = ({
   const logout = () => {
     toast.error("Logged out successfully");
     localStorage.removeItem("user");
+    localStorage.removeItem("access_token");
     store.dispatch(setLoginStatus(false));
     navigate("/login");
   };

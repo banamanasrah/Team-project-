@@ -1,11 +1,11 @@
 import { HiTrash as TrashIcon } from "react-icons/hi2";
 import { Button } from "../components";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { removeProductFromTheCart } from "../features/cart/cartSlice";
-import customFetch from "../axios/custom";
+import { removeProductFromTheCart, clearCart } from "../features/cart/cartSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { checkCheckoutFormData } from "../utils/checkCheckoutFormData";
+import { checkout as apiCheckout } from "../api/cartApi";
 
 /*
 address: "Marka Markovic 22"
@@ -42,38 +42,37 @@ const Checkout = () => {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
 
-    const checkoutData = {
-      data,
-      products: productsInCart,
-      subtotal: subtotal,
-    };
-
+    // Frontend validation (existing utility)
+    const checkoutData = { data, products: productsInCart, subtotal };
     if (!checkCheckoutFormData(checkoutData)) return;
 
-    let response;
-    if (JSON.parse(localStorage.getItem("user") || "{}").email) {
-      response = await customFetch.post("/orders", {
-        ...checkoutData,
-        user: {
-          email: JSON.parse(localStorage.getItem("user") || "{}").email,
-          id: JSON.parse(localStorage.getItem("user") || "{}").id,
-        },
-        orderStatus: "Processing",
-        orderDate: new Date().toISOString(),
-      });
-    } else {
-      response = await customFetch.post("/orders", {
-        ...checkoutData,
-        orderStatus: "Processing",
-        orderDate: new Date().toLocaleDateString(),
-      });
-    }
+    // Build a readable shipping address from the form fields
+    const shipping_address = [
+      data.firstName,
+      data.lastName,
+      data.address,
+      data.apartment,
+      data.city,
+      data.region,
+      data.postalCode,
+      data.country,
+    ]
+      .filter(Boolean)
+      .join(", ");
 
-    if (response.status === 201) {
+    const payment_method = String(data.paymentType ?? "credit-card");
+
+    try {
+      await apiCheckout(shipping_address, payment_method);
+      // Backend cleared the persistent cart — clear Redux state too
+      dispatch(clearCart());
       toast.success("Order has been placed successfully");
       navigate("/order-confirmation");
-    } else {
-      toast.error("Something went wrong, please try again later");
+    } catch (err: any) {
+      const detail =
+        err?.response?.data?.detail ??
+        "Something went wrong, please try again later";
+      toast.error(detail);
     }
   };
 
@@ -439,8 +438,9 @@ const Checkout = () => {
                   <li key={product?.id} className="flex px-4 py-6 sm:px-6">
                     <div className="flex-shrink-0">
                       <img
-                        src={`/assets/${product?.image}`}
+                        src={product?.image || ""}
                         alt={product?.title}
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                         className="w-20 rounded-md"
                       />
                     </div>

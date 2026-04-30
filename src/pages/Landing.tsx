@@ -5,9 +5,9 @@ import skinCare from "../assets/skinCare.jpg";
 import electronics from "../assets/electronics.jpg";
 import accessories from "../assets/accessories.jpg";
 import videoManInStore from "../assets/videoManInStore.mp4";
-import phonecase from "../assets/phonecase.png";
-import top from "../assets/top.png";
-import headphones from "../assets/HeadPhones.png";
+import { ProductItem } from "../components";
+import { Product } from "../typings";
+import customFetch from "../axios/custom";
 
 const sliderImages = [accessories, pants, skinCare, electronics];
 const backgroundPositions = ["center", "center", "bottom", "center"];
@@ -23,12 +23,32 @@ const categoryMap = [
 const Landing = () => {
   const navigate = useNavigate();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [trendingProducts, setTrendingProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % sliderImages.length);
     }, 15000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    // Fetch 3 newest/trending products
+    customFetch.get("/products/?limit=3")
+      .then((res) => {
+        const normalized: Product[] = (Array.isArray(res.data) ? res.data : []).map((p: any) => ({
+          id: String(p.id),
+          title: p.title,
+          description: p.description ?? "",
+          price: p.price,
+          category: p.category && typeof p.category === "object" ? p.category.name : String(p.category ?? ""),
+          stock: p.stock_quantity ?? 0,
+          popularity: 0,
+          image: p.image_url ?? "",
+        }));
+        setTrendingProducts(normalized);
+      })
+      .catch((err) => console.error("Error fetching trending products:", err));
   }, []);
 
   return (
@@ -104,40 +124,26 @@ const Landing = () => {
         </video>
       </div>
 
-      {/* PRODUCTS SECTION */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <button
-          onClick={() => navigate("/product/1")}
-          className="bg-[var(--bg-soft)] p-4 rounded-xl border border-[var(--border)] text-center cursor-pointer hover:shadow-lg transition-shadow"
-        >
-          <img src={top} className="h-40 mx-auto object-contain" alt="Stylish Top" />
-          <h3 className="mt-3 font-semibold">Stylish Top</h3>
-          <p className="text-gray-400">20.00 JOD</p>
-        </button>
-
-        <button
-          onClick={() => navigate("/product/2")}
-          className="bg-[var(--bg-soft)] p-4 rounded-xl border border-[var(--border)] text-center cursor-pointer hover:shadow-lg transition-shadow"
-        >
-          <img src={phonecase} className="h-40 mx-auto object-contain" alt="Phone Case" />
-          <h3 className="mt-3 font-semibold">Phone Case</h3>
-          <p className="text-gray-400">20.00 JOD</p>
-        </button>
-
-        <button
-          onClick={() => navigate("/product/3")}
-          className="bg-[var(--bg-soft)] p-4 rounded-xl border border-[var(--border)] text-center cursor-pointer hover:shadow-lg transition-shadow"
-        >
-          <img src={headphones} className="h-40 mx-auto object-contain" alt="Headphones" />
-          <h3 className="mt-3 font-semibold">Headphones</h3>
-          <p className="text-gray-400">20.00 JOD</p>
-        </button>
+      {/* PRODUCTS SECTION - تم إرجاع الـ Grid الأصلي 100% */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        {trendingProducts.map((product) => (
+          <ProductItem
+            key={product.id}
+            id={product.id}
+            image={product.image}
+            title={product.title}
+            category={product.category}
+            price={product.price}
+            popularity={product.popularity}
+            stock={product.stock}
+          />
+        ))}
       </div>
 
       {/* MORE BUTTON */}
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-8">
         <button
-          onClick={() => navigate("/shop/home-living")}
+          onClick={() => navigate("/shop/all")}
           className="py-3 px-7 rounded-full bg-secondaryBrown/10 text-[#111111] font-medium transition duration-200 hover:bg-secondaryBrown/20"
         >
           Explore More

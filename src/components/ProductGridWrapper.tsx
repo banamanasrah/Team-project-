@@ -41,9 +41,8 @@ const ProductGridWrapper = ({
           limit,
         };
 
-        // Denormalize URL slug → readable name for backend ilike filter
-        // e.g. "clothing-accessories" → "Clothing Accessories"
-        if (cat) {
+        // Only pass category_name if it's not "All"
+        if (cat && cat !== "All") {
           params.category_name = cat.replace(/-/g, " ");
         }
 
