@@ -14,6 +14,7 @@ import {
   SingleProduct,
   UserProfile,
   AdminDashboard,
+  ServiceDetailPage,
 } from "./pages";
 import HomeServicesHero from "./pages/service";
 import ListServicePage from "./pages/listservice";
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "listservice",
         element: <ListServicePage />,
+      },
+      {
+        path: "services/:id",
+        element: <ServiceDetailPage />,
       },
       {
         path: "cart",

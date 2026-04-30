@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 // Use standard icons for the Nordic aesthetic
 import { 
   HiChevronLeft, 
@@ -139,10 +139,32 @@ const ServiceDetailPage = () => {
     }
   };
 
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [service, setService] = useState<any>(null);
+
+  useEffect(() => {
+    const storedServices = JSON.parse(localStorage.getItem('services') || '[]');
+    const foundService = storedServices.find((s: any) => s.id === id);
+    setService(foundService);
+  }, [id]);
+
+  if (!service) {
+    return (
+      <div style={styles.wrapper}>
+        <div style={styles.backLink} onClick={() => navigate('/services')}>
+          <HiChevronLeft size={16} />
+          Back to Home Services
+        </div>
+        <h2>Service not found</h2>
+      </div>
+    );
+  }
+
   return (
     <div style={styles.wrapper}>
       {/* 1. Back to Home Services Link */}
-      <div style={styles.backLink}>
+      <div style={styles.backLink} onClick={() => navigate('/services')}>
         <HiChevronLeft size={16} />
         Back to Home Services
       </div>
@@ -155,7 +177,11 @@ const ServiceDetailPage = () => {
       <div style={styles.mainLayout}>
         {/* --- LEFT SIDE: Main Info --- */}
         <div>
-          <div style={styles.mainImage}>🏞️</div>
+          {service.images && service.images.length > 0 ? (
+            <img src={service.images[0]} alt={service.title} style={{...styles.mainImage, objectFit: 'cover' as const}} />
+          ) : (
+            <div style={styles.mainImage}>🏞️</div>
+          )}
           
           {/* Vetting Guarantee Bar - As discussed and from photo */}
           <div style={styles.qualityBar}>
@@ -164,10 +190,10 @@ const ServiceDetailPage = () => {
           </div>
 
           <h2 style={{ fontSize: '28px', fontWeight: '800', marginBottom: '10px' }}>
-            Traditional Woodworking Workshop
+            {service.title}
           </h2>
           <p style={{ color: softGrey, fontSize: '14px', marginBottom: '30px' }}>
-            A hands-on experience in Scandinavian craftsmanship.
+            {service.category}
           </p>
 
           <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '12px' }}>
@@ -175,10 +201,7 @@ const ServiceDetailPage = () => {
           </h3>
           <div style={styles.description}>
             <p style={{ marginBottom: '15px' }}>
-              Discover the art of traditional Scandinavian woodworking in this 3-hour immersive workshop. This course is designed for beginners and intermediate crafters who want to connect with natural materials and traditional tools.
-            </p>
-            <p>
-              We cover essential carving techniques using Mora knives, wood selection, and finishing with natural linseed oils. Participants will create their own traditional butter knife (Smörkniv) to take home. The workshop takes place in our purpose-built studio in Stockholm.
+              {service.description}
             </p>
           </div>
         </div>
@@ -187,7 +210,7 @@ const ServiceDetailPage = () => {
         <aside style={styles.bookCard}>
           <div style={styles.priceBlock}>
             <span>$</span>
-            <span>120.00</span>
+            <span>{service.price}</span>
             <span style={{ fontSize: '16px', fontWeight: '500', color: softGrey }}> / session</span>
           </div>
           <p style={{ color: '#10B981', fontWeight: '600', fontSize: '14px', marginBottom: '25px' }}>
@@ -196,11 +219,11 @@ const ServiceDetailPage = () => {
 
           <div style={styles.infoRow}>
             <HiOutlineUserCircle size={20} style={{color: plutoBlue}} />
-            Provided by: <span style={{ fontWeight: '600', color: darkText }}>Elias Thorne</span>
+            Provided by: <span style={{ fontWeight: '600', color: darkText }}>Nordic Expert</span>
           </div>
           <div style={styles.infoRow}>
             <HiOutlineClock size={20} style={{color: plutoBlue}} />
-            Duration: <span style={{ fontWeight: '600', color: darkText }}>3 Hours</span>
+            Duration: <span style={{ fontWeight: '600', color: darkText }}>{service.duration}</span>
           </div>
           <div style={styles.infoRow}>
             <HiOutlineCurrencyDollar size={20} style={{color: plutoBlue}} />
@@ -227,7 +250,7 @@ const ServiceDetailPage = () => {
             Recommended Services Based on Your EyesOn
           </h2>
           {/* View All TQ - Link back to Home Services Page */}
-          <div style={{...styles.backLink, marginBottom: 0, fontWeight: '600', color: plutoBlue }}>
+          <div style={{...styles.backLink, marginBottom: 0, fontWeight: '600', color: plutoBlue }} onClick={() => navigate('/services')}>
             View All TQ <span>→</span>
           </div>
         </div>

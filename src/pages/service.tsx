@@ -324,7 +324,11 @@ const HomeServicesPage = () => {
           ) : (
             <div style={styles.servicesGrid}>
               {services.map((service) => (
-                <div key={service.id} style={styles.serviceCard}>
+                <div 
+                  key={service.id} 
+                  style={styles.serviceCard}
+                  onClick={() => navigate(`/services/${service.id}`)}
+                >
                   {service.images.length > 0 && (
                     <img 
                       src={service.images[0]} 
