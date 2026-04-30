@@ -8,7 +8,6 @@ import {
   OrderConfirmation,
   OrderHistory,
   Register,
-  Search,
   Shop,
   SingleOrderHistory,
   SingleProduct,
@@ -73,11 +72,6 @@ const router = createBrowserRouter([
         path: "checkout",
         element: <Checkout />,
         action: checkoutAction,
-      },
-      {
-        path: "search",
-        action: searchAction,
-        element: <Search />,
       },
       {
         path: "login",

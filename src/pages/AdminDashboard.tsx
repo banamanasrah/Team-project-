@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  AreaChart, Area, PieChart, Pie, Cell 
+  AreaChart, Area 
 } from 'recharts';
 
 // --- Mock Data ---
@@ -284,7 +284,7 @@ const AdminDashboard = () => {
 
 // --- Sub-components ---
 
-const StatCard = ({ title, value, subValue, progress, isRating, dark }: any) => (
+const StatCard = ({ title, value, subValue, progress, isRating }: any) => (
   <div className="bg-gray-200 text-black p-6 rounded-3xl shadow-sm border border-gray-300">
     <p className="text-xs font-bold opacity-60 tracking-wider mb-2">{title}</p>
     <div className="flex items-baseline gap-2">

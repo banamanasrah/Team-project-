@@ -1,5 +1,6 @@
 import SocialMediaFooter from "./SocialMediaFooter";
 import { HiChevronDown } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 
 
 const Footer = () => {
@@ -19,7 +20,6 @@ const Footer = () => {
             <p className="text-lg max-sm:text-base">The Company</p>
             <p className="text-lg max-sm:text-base">The Excellence</p>
             <p className="text-lg max-sm:text-base">International Awards</p>
-            <p className="text-lg max-sm:text-base">Our Story</p>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -30,7 +30,6 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col gap-8 my-20">
-          <p className="flex justify-center items-center text-2xl gap-2 max-sm:text-xl">Worldwide / English <HiChevronDown /></p>
           <h2 className="text-6xl font-light text-center max-sm:text-5xl">EyeOn</h2>
           <p className="text-base text-center max-sm:text-sm">All rights reserved ©2024</p>
           <ul className="flex justify-center items-center gap-7 text-base max-sm:text-sm max-[350px]:flex-col max-[350px]:gap-5">
