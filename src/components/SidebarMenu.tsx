@@ -80,9 +80,6 @@ const SidebarMenu = ({
               <Link to="/admin" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
                 Admin
               </Link>
-              <Link to="/search" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
-                Search
-              </Link>
               {loginStatus ? (
                 <button
                   onClick={() => {
