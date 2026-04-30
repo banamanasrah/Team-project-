@@ -77,6 +77,9 @@ const SidebarMenu = ({
               <Link to="/services" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
                 Services
               </Link>
+              <Link to="/admin" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
+                Admin
+              </Link>
               <Link to="/search" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
                 Search
               </Link>

@@ -236,7 +236,14 @@ const HomeServicesPage = () => {
           </p>
         </div>
         <div style={styles.buttonGroup}>
-          <button style={styles.primaryBtn}>Browse Services</button>
+          <button 
+            style={styles.primaryBtn}
+            onClick={() => {
+              document.getElementById('services-list')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            Browse Services
+          </button>
           <button
             style={styles.secondaryBtn}
             onClick={() => navigate('/listservice')}
@@ -272,12 +279,12 @@ const HomeServicesPage = () => {
               
               <input 
                 type="range" min="0" max="250" value={minPrice} onChange={handleMinChange}
-                style={{...styles.inputRange, pointerEvents: 'auto'}} 
+                style={styles.inputRange} 
                 className="dual-slider"
               />
               <input 
                 type="range" min="0" max="250" value={maxPrice} onChange={handleMaxChange}
-                style={{...styles.inputRange, pointerEvents: 'auto'}} 
+                style={styles.inputRange} 
                 className="dual-slider"
               />
             </div>
@@ -309,7 +316,7 @@ const HomeServicesPage = () => {
         </aside>
 
         {/* Content Area with Services */}
-        <main style={styles.contentMain}>
+        <main id="services-list" style={styles.contentMain}>
           {services.length === 0 ? (
             <div style={styles.noServiceMsg}>
               No service available yet
