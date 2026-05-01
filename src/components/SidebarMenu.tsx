@@ -39,56 +39,73 @@ const SidebarMenu = ({
   return (
     <>
       {(isSidebarOpen || isAnimating) && (
-        <div
-          className={
-            isSidebarOpen
-              ? "fixed top-0 left-0 w-64 z-50 h-full transition-transform duration-300 ease-in-out bg-white shadow-lg transform border-r border-black translate-x-0"
-              : "fixed top-0 left-0 w-64 z-50 h-full transition-transform duration-300 ease-in-out bg-white shadow-lg transform border-r border-black -translate-x-full"
-          }
-        >
-          <div className="flex justify-end mr-1 mt-1">
-            <HiXMark
-              className="text-3xl cursor-pointer"
-              onClick={() => setIsSidebarOpen(false)}
-            />
+        <>
+          <div
+            className={
+              isSidebarOpen
+                ? "fixed inset-0 z-40 bg-black/20 transition-opacity duration-300"
+                : "fixed inset-0 z-40 bg-transparent transition-opacity duration-300"
+            }
+            onClick={() => setIsSidebarOpen(false)}
+          />
+          <div
+            className={
+              isSidebarOpen
+                ? "fixed top-0 left-0 w-64 z-50 h-full transition-transform duration-300 ease-in-out bg-white shadow-lg transform border-r border-black translate-x-0"
+                : "fixed top-0 left-0 w-64 z-50 h-full transition-transform duration-300 ease-in-out bg-white shadow-lg transform border-r border-black -translate-x-full"
+            }
+          >
+            <div className="flex justify-end mr-1 mt-1">
+              <HiXMark
+                className="text-3xl cursor-pointer"
+                onClick={() => setIsSidebarOpen(false)}
+              />
+            </div>
+            <div className="flex justify-center mt-2">
+              <Link
+                to="/"
+                className="text-4xl font-light tracking-[1.08px] max-sm:text-3xl max-[400px]:text-2xl"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                EyeOn
+              </Link>
+            </div>
+            <div className="flex flex-col items-center gap-3 mt-7 px-3">
+              <Link to="/" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
+                Home
+              </Link>
+              <Link to="/services" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
+                Services
+              </Link>
+              <Link to="/admin" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
+                Admin
+              </Link>
+              {loginStatus ? (
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsSidebarOpen(false);
+                  }}
+                  className={menuItemClass}
+                >
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <Link to="/login" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
+                    Sign in
+                  </Link>
+                  <Link to="/register" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
+                    Sign up
+                  </Link>
+                </>
+              )}
+              <Link to="/cart" className={menuItemClass} onClick={() => setIsSidebarOpen(false)}>
+                Cart
+              </Link>
+            </div>
           </div>
-          <div className="flex justify-center mt-2">
-            <Link
-              to="/"
-              className="text-4xl font-light tracking-[1.08px] max-sm:text-3xl max-[400px]:text-2xl"
-            >
-              EyeOn
-            </Link>
-          </div>
-          <div className="flex flex-col items-center gap-3 mt-7 px-3">
-            <Link to="/" className={menuItemClass}>
-              Home
-            </Link>
-            <Link to="/services" className={menuItemClass}>
-             Services
-            </Link>
-            <Link to="/search" className={menuItemClass}>
-              Search
-            </Link>
-            {loginStatus ? (
-              <button onClick={logout} className={menuItemClass}>
-                Logout
-              </button>
-            ) : (
-              <>
-                <Link to="/login" className={menuItemClass}>
-                  Sign in
-                </Link>
-                <Link to="/register" className={menuItemClass}>
-                  Sign up
-                </Link>
-              </>
-            )}
-            <Link to="/cart" className={menuItemClass}>
-              Cart
-            </Link>
-          </div>
-        </div>
+        </>
       )}
     </>
   );

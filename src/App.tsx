@@ -8,11 +8,12 @@ import {
   OrderConfirmation,
   OrderHistory,
   Register,
-  Search,
   Shop,
   SingleOrderHistory,
   SingleProduct,
   UserProfile,
+  AdminDashboard,
+  ServiceDetailPage,
 } from "./pages";
 import HomeServicesHero from "./pages/service";
 import ListServicePage from "./pages/listservice";
@@ -52,8 +53,16 @@ const router = createBrowserRouter([
         element: <HomeServicesHero />,
       },
       {
+        path: "admin",
+        element: <AdminDashboard />,
+      },
+      {
         path: "listservice",
         element: <ListServicePage />,
+      },
+      {
+        path: "services/:id",
+        element: <ServiceDetailPage />,
       },
       {
         path: "cart",
@@ -63,11 +72,6 @@ const router = createBrowserRouter([
         path: "checkout",
         element: <Checkout />,
         action: checkoutAction,
-      },
-      {
-        path: "search",
-        action: searchAction,
-        element: <Search />,
       },
       {
         path: "login",
